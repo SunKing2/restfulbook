@@ -32,6 +32,17 @@ public class CustomerResource {
 	@Path("{id}")
 	@Produces("application/xml")
 	public String getCustomer(@PathParam("id") int id) {
-		return "<mystuff>hi</mystuff>";
+		String sId = "";
+		String sLastName = "";
+		try {
+			Customer customer = customerDB.get(id);
+			sId = "" + customer.id;
+			sLastName = customer.lastName;
+		}
+		catch (Exception exc) {
+			System.out.println("GET /customers/{id}:" + exc);
+			throw new WebApplicationException(Response.Status.NOT_FOUND); 
+		}
+		return "<customer><id>" + sId + "</id><lastName>" + sLastName + "</lastName></customer>";
 	}
 }
