@@ -34,6 +34,7 @@ public class CustomerResource {
 	public String getCustomer(@PathParam("id") int id) {
 		String sId = "";
 		String sLastName = "";
+		customerDB.put(1, new Customer(1));
 		try {
 			Customer customer = customerDB.get(id);
 			sId = "" + customer.id;
