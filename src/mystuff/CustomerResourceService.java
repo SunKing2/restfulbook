@@ -7,7 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
 @Path("customers")
-public class CustomerResource {
+public class CustomerResourceService {
 
 	private Map<Integer, Customer> customerDB = new HashMap<>();
 	private Integer currentId = 0;
