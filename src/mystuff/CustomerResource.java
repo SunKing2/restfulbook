@@ -34,6 +34,8 @@ public class CustomerResource {
 	public String getCustomer(@PathParam("id") int id) {
 		String sId = "";
 		String sLastName = "";
+		
+		// TODO putting customer into database in GET is baaaaddd!!!
 		customerDB.put(1, new Customer(1));
 		try {
 			Customer customer = customerDB.get(id);
