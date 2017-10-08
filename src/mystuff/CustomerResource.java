@@ -10,7 +10,7 @@ import javax.ws.rs.core.*;
 public class CustomerResource {
 
 	private Map<Integer, Customer> customerDB = new HashMap<>();
-	private Integer id = 0;
+	private Integer currentId = 0;
 	
 	@POST
 	@Produces("application/xml")
@@ -18,12 +18,12 @@ public class CustomerResource {
 	public Response createCustomer(String inputString) {
 
 		System.out.println("POST /customers input:\n" + inputString);
-		Customer customer = new Customer(++id);
-		customerDB.put(id, customer);
+		Customer customer = new Customer(++currentId);
+		customerDB.put(currentId, customer);
 		
 		System.out.println("created:" + customer);
 		
-		String uriString = "/customer/" + id;
+		String uriString = "/customer/" + currentId;
 		Response response = Response.created(URI.create(uriString)).build();
 		
 		return response;
@@ -43,25 +43,10 @@ public class CustomerResource {
 		return "<customer><id>" + sId + "</id><lastName>" + sLastName + "</lastName></customer>";
 	}
 
-	private Customer retrieveCustomer(int id) throws WebApplicationException {
-		
-		// TODO putting customer into database in GET and PUT is baaaaddd!!!
-		customerDB.put(id, new Customer(1));
-		Customer customer = null;
-		try {
-			customer = customerDB.get(id);
-		}
-		catch (Exception exc) {
-			System.out.println("GET /customers/{id}:" + exc);
-			throw new WebApplicationException(Response.Status.NOT_FOUND); 
-		}
-		return customer;
-	}
-	
-	@POST
+	@PUT
 	@Path("{id}")
 	@Consumes("application/xml")
-	public void updateCustomer(String inputString) {
+	public void updateCustomer(@PathParam("id") int id, String inputString) {
 		System.out.println("PUT /customers/\" + id + \" input:\n" + inputString);
 		
 		Customer customer = retrieveCustomer(id);
@@ -83,4 +68,20 @@ public class CustomerResource {
 	    
         System.out.println("customer:" + customer);
 	}
+
+	private Customer retrieveCustomer(int id) throws WebApplicationException {
+		
+		// TODO putting customer into database in GET and PUT is baaaaddd!!!
+		customerDB.put(id, new Customer(1));
+		Customer customer = null;
+		try {
+			customer = customerDB.get(id);
+		}
+		catch (Exception exc) {
+			System.out.println("GET /customers/{id}:" + exc);
+			throw new WebApplicationException(Response.Status.NOT_FOUND); 
+		}
+		return customer;
+	}
+	
 }
