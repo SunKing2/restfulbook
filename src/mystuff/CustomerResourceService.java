@@ -13,8 +13,6 @@ public class CustomerResourceService {
 	private Integer currentId = 0;
 	
 	@POST
-	@Produces("application/xml")
-	@Consumes("application/xml")
 	public Response createCustomer(String inputString) {
 
 		System.out.println("POST /customers input:\n" + inputString);
