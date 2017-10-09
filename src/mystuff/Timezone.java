@@ -4,11 +4,13 @@ import javax.ws.rs.*;
  
 @Path("/timezone")
 public class Timezone {
+	
+	private int time = 0;
  
     @GET
     @Produces("text/plain")
     public String timezone() {
-        return "time to party";
+        return "time to party: " + ++time + ":00";
     }
  
     @Path("{myverb}")

@@ -15,16 +15,21 @@ public class CustomerResourceService {
 	@POST
 	public Response createCustomer(String inputString) {
 
-		System.out.println("POST /customers input:\n" + inputString);
+		System.out.println("POST /customers input:" + inputString);
 		Customer customer = new Customer(++currentId);
 		customerDB.put(currentId, customer);
 		
-		System.out.println("created:" + customer);
+		System.out.println("    created:" + customer);
 		
 		String uriString = "/customer/" + currentId;
 		Response response = Response.created(URI.create(uriString)).build();
 		
 		return response;
+	}
+	
+	@GET
+	public String getAllCustomers() {
+		return customerDB.toString();
 	}
 	
 	@GET
@@ -45,7 +50,7 @@ public class CustomerResourceService {
 	@Path("{id}")
 	@Consumes("application/xml")
 	public void updateCustomer(@PathParam("id") int id, String inputString) {
-		System.out.println("PUT /customers/\" + id + \" input:\n" + inputString);
+		System.out.println("PUT /customers/" + id + " input:" + inputString);
 		
 		Customer customer = retrieveCustomer(id);
 		
@@ -64,7 +69,7 @@ public class CustomerResourceService {
 		}
 	    customer.lastName = newLastName;
 	    
-        System.out.println("customer:" + customer);
+        System.out.println("    customer:" + customer);
 	}
 
 	private Customer retrieveCustomer(int id) throws WebApplicationException {
